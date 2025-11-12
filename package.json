@@ -12,7 +12,8 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,md}\"",
     "optimize:models": "echo \"Model optimization script placeholder\"",
     "preview": "vercel",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@react-three/drei": "^9.88.0",
