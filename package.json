@@ -6,26 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "compress-models": "bash scripts/compress-models.sh",
+    "compress-models:aggressive": "bash scripts/compress-models.sh -p aggressive",
+    "compress-models:quality": "bash scripts/compress-models.sh -p quality"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
+    "next": "16.0.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "next": "16.0.2"
+    "three": "^0.181.1",
+    "zustand": "^5.0.8"
   },
   "optionalDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/forms": "^0.5.7",
-    "@tailwindcss/line-clamp": "^0.4.4"
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/typography": "^0.5.15"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "@types/three": "^0.181.0",
     "eslint": "^9",
-    "eslint-config-next": "16.0.2"
+    "eslint-config-next": "16.0.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

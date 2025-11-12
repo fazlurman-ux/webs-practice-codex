@@ -6,3 +6,6 @@ export { Section } from './Section';
 export { Navbar } from './Navbar';
 export { Footer } from './Footer';
 export { PageWrapper } from './PageWrapper';
+
+// 3D Components (use dynamic imports with ssr: false in Next.js pages)
+export * from './three';
