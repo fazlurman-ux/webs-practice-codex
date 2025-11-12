@@ -1,0 +1,15 @@
+# Ignore artifacts
+.next
+out
+build
+dist
+node_modules
+.git
+.husky
+
+# Ignore files
+*.pem
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
