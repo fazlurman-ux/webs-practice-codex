@@ -8,6 +8,8 @@ export { Footer } from './Footer';
 export { PageWrapper } from './PageWrapper';
 export { HeroSection } from './HeroSection';
 export { AboutSection } from './AboutSection';
+export { ProductCard } from './ProductCard';
+export { ProductGridSection } from './ProductGridSection';
 
 // 3D Components (use dynamic imports with ssr: false in Next.js pages)
 export * from './three';
