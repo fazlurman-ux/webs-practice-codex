@@ -330,11 +330,33 @@ Features used:
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Quick Deploy to Vercel
+
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and import your repository
+3. Vercel will auto-detect Next.js settings
+4. Click "Deploy" 🎉
+
+### Manual Vercel Setup
 ```bash
 npm install -g vercel
 vercel
 ```
+
+### Production Build
+```bash
+npm run build
+npm start
+```
+
+### 📖 Full Deployment Guide
+
+For comprehensive deployment instructions:
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete Vercel setup guide
+- CI/CD with GitHub Actions
+- Environment variables
+- Performance optimization
+- Rollback procedures
 
 ### Other Platforms
 ```bash
@@ -344,7 +366,22 @@ npm start
 
 ## 📝 Environment Variables
 
-None required for basic setup. All configuration is in code.
+Copy `.env.example` to `.env.local` and configure:
+
+```bash
+# Analytics (optional)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_VERCEL_ANALYTICS_ID=true
+
+# Custom domain (optional)
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
+# Feature flags (optional)
+NEXT_PUBLIC_ENABLE_ANALYTICS=true
+NEXT_PUBLIC_ENABLE_3D_FEATURES=true
+```
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete environment setup.
 
 ## 🐛 Troubleshooting
 
