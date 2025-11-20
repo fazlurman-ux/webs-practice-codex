@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group, Vector3 } from 'three';
+import { Group, Vector3, TorusKnotGeometry, TorusGeometry, SphereGeometry, MeshStandardMaterial } from 'three';
 
 interface Hero3DModelProps {
   /** Mouse position [x, y] normalized to [-1, 1] range */
@@ -94,55 +94,81 @@ export function Hero3DModel({
     }
   });
 
+  // Memoize geometries and materials for GPU optimization
+  const mainGeometry = useMemo(() => {
+    // Reduced poly count for better performance
+    return new TorusKnotGeometry(1, 0.3, 64, 16);
+  }, []);
+
+  const ringGeometry = useMemo(() => {
+    return new TorusGeometry(1.2, 0.05, 12, 50);
+  }, []);
+
+  const sphereGeometry = useMemo(() => {
+    // Reduced poly count from 32,32 to 16,16
+    return new SphereGeometry(0.2, 16, 16);
+  }, []);
+
+  const mainMaterial = useMemo(() => {
+    return new MeshStandardMaterial({
+      color: "#1a1a1a",
+      metalness: 0.9,
+      roughness: 0.1,
+      emissive: "#e91e8c",
+      emissiveIntensity: 0.2,
+    });
+  }, []);
+
+  const ringMaterial = useMemo(() => {
+    return new MeshStandardMaterial({
+      color: "#e91e8c",
+      metalness: 1,
+      roughness: 0,
+      emissive: "#e91e8c",
+      emissiveIntensity: 0.8,
+    });
+  }, []);
+
+  const sphereMaterials = useMemo(() => {
+    const createMaterial = (color: string) => new MeshStandardMaterial({
+      color,
+      metalness: 0.8,
+      roughness: 0.2,
+      emissive: color,
+      emissiveIntensity: 0.5,
+    });
+
+    return {
+      lime: createMaterial("#39ff14"),
+      cyan: createMaterial("#00d9ff"),
+      purple: createMaterial("#e91e8c"),
+    };
+  }, []);
+
   return (
     <group ref={groupRef}>
       {/* Primary Product Placeholder - Replace with actual GLTF model */}
       {/* When using real model: <primitive object={gltf.scene} /> */}
       
       {/* Main product body - metallic finish with neon accent */}
-      <mesh castShadow receiveShadow>
-        <torusKnotGeometry args={[1, 0.3, 128, 32]} />
-        <meshStandardMaterial
-          color="#1a1a1a"
-          metalness={0.9}
-          roughness={0.1}
-          emissive="#e91e8c"
-          emissiveIntensity={0.2}
-        />
-      </mesh>
+      <mesh castShadow receiveShadow geometry={mainGeometry} material={mainMaterial} />
 
       {/* Accent ring - neon purple glow */}
-      <mesh position={[0, 0, 0]} scale={1.3}>
-        <torusGeometry args={[1.2, 0.05, 16, 100]} />
-        <meshStandardMaterial
-          color="#e91e8c"
-          metalness={1}
-          roughness={0}
-          emissive="#e91e8c"
-          emissiveIntensity={0.8}
-        />
-      </mesh>
+      <mesh position={[0, 0, 0]} scale={1.3} geometry={ringGeometry} material={ringMaterial} />
 
-      {/* Floating accent spheres for visual interest */}
+      {/* Floating accent spheres for visual interest - Reduced count for performance */}
       {[
-        { pos: [2, 1, 0], color: '#39ff14' },
-        { pos: [-2, -1, 0], color: '#00d9ff' },
-        { pos: [0, 2, -1], color: '#e91e8c' },
+        { pos: [2, 1, 0], color: 'lime' as const },
+        { pos: [-2, -1, 0], color: 'cyan' as const },
+        // Removed third sphere to reduce GPU load
       ].map((sphere, idx) => (
         <mesh
           key={idx}
           position={sphere.pos as [number, number, number]}
           castShadow
-        >
-          <sphereGeometry args={[0.2, 32, 32]} />
-          <meshStandardMaterial
-            color={sphere.color}
-            metalness={0.8}
-            roughness={0.2}
-            emissive={sphere.color}
-            emissiveIntensity={0.5}
-          />
-        </mesh>
+          geometry={sphereGeometry}
+          material={sphereMaterials[sphere.color]}
+        />
       ))}
     </group>
   );

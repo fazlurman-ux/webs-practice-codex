@@ -8,10 +8,79 @@ import { Section } from '@/components/Section';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PageWrapper } from '@/components/PageWrapper';
-import { HeroSection } from '@/components/HeroSection';
-import { TechnologySection } from '@/components/TechnologySection';
-import { AboutSection } from '@/components/AboutSection';
-import { ProductGridSection } from '@/components/ProductGridSection';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+// Lazy load heavy components for better code splitting
+const HeroSection = dynamic(
+  () => import('@/components/HeroSection').then(mod => ({ default: mod.HeroSection })),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-dark-900 to-dark-800 flex items-center justify-center">
+        <div className="animate-pulse text-neon-purple text-2xl">Loading Experience...</div>
+      </div>
+    )
+  }
+);
+
+const TechnologySection = dynamic(
+  () => import('@/components/TechnologySection').then(mod => ({ default: mod.TechnologySection })),
+  { 
+    loading: () => (
+      <Section padding="lg">
+        <Container maxWidth="2xl">
+          <div className="animate-pulse text-center">
+            <div className="h-12 bg-dark-700 rounded-lg mb-4 max-w-md mx-auto"></div>
+            <div className="h-4 bg-dark-700 rounded max-w-2xl mx-auto"></div>
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+);
+
+const AboutSection = dynamic(
+  () => import('@/components/AboutSection').then(mod => ({ default: mod.AboutSection })),
+  { 
+    loading: () => (
+      <Section padding="lg" variant="dark">
+        <Container maxWidth="2xl">
+          <div className="animate-pulse">
+            <div className="h-12 bg-dark-600 rounded-lg mb-4 max-w-md mx-auto"></div>
+            <div className="h-4 bg-dark-600 rounded max-w-3xl mx-auto mb-2"></div>
+            <div className="h-4 bg-dark-600 rounded max-w-2xl mx-auto"></div>
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+);
+
+const ProductGridSection = dynamic(
+  () => import('@/components/ProductGridSection').then(mod => ({ default: mod.ProductGridSection })),
+  { 
+    loading: () => (
+      <Section className="py-16 lg:py-24">
+        <Container>
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="h-12 bg-dark-700 rounded-lg mb-4 max-w-md mx-auto animate-pulse"></div>
+            <div className="h-6 bg-dark-700 rounded max-w-2xl mx-auto animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-square bg-dark-800 rounded-xl mb-4"></div>
+                <div className="h-6 bg-dark-700 rounded mb-2"></div>
+                <div className="h-4 bg-dark-700 rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+);
 
 export default function Home() {
   // Sample product data for demonstration
@@ -104,22 +173,71 @@ export default function Home() {
     <>
       <Navbar />
       <main className="bg-dark-950">
-        {/* Hero Section with 3D */}
-        <HeroSection />
+        {/* Hero Section with 3D - Critical for LCP */}
+        <Suspense fallback={
+          <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-dark-900 to-dark-800 flex items-center justify-center">
+            <div className="animate-pulse text-neon-purple text-2xl">Loading Experience...</div>
+          </div>
+        }>
+          <HeroSection />
+        </Suspense>
         
         {/* Technology Section with Interactive 3D Breakdown */}
-        <TechnologySection />
+        <Suspense fallback={
+          <Section padding="lg">
+            <Container maxWidth="2xl">
+              <div className="animate-pulse text-center">
+                <div className="h-12 bg-dark-700 rounded-lg mb-4 max-w-md mx-auto"></div>
+                <div className="h-4 bg-dark-700 rounded max-w-2xl mx-auto"></div>
+              </div>
+            </Container>
+          </Section>
+        }>
+          <TechnologySection />
+        </Suspense>
         
-        <AboutSection />
+        <Suspense fallback={
+          <Section padding="lg" variant="dark">
+            <Container maxWidth="2xl">
+              <div className="animate-pulse">
+                <div className="h-12 bg-dark-600 rounded-lg mb-4 max-w-md mx-auto"></div>
+                <div className="h-4 bg-dark-600 rounded max-w-3xl mx-auto mb-2"></div>
+                <div className="h-4 bg-dark-600 rounded max-w-2xl mx-auto"></div>
+              </div>
+            </Container>
+          </Section>
+        }>
+          <AboutSection />
+        </Suspense>
 
         <PageWrapper sectionSpacing="lg" scrollSnapping={false}>
-          {/* Featured Products Section */}
-          <ProductGridSection
-            title="Featured Products"
-            subtitle="Discover our curated collection of premium athletic and lifestyle gear"
-            products={featuredProducts}
-            itemsPerPage={8}
-          />
+          {/* Featured Products Section - Lazy loaded */}
+          <Suspense fallback={
+            <Section className="py-16 lg:py-24">
+              <Container>
+                <div className="text-center mb-12 lg:mb-16">
+                  <div className="h-12 bg-dark-700 rounded-lg mb-4 max-w-md mx-auto animate-pulse"></div>
+                  <div className="h-6 bg-dark-700 rounded max-w-2xl mx-auto animate-pulse"></div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="aspect-square bg-dark-800 rounded-xl mb-4"></div>
+                      <div className="h-6 bg-dark-700 rounded mb-2"></div>
+                      <div className="h-4 bg-dark-700 rounded w-3/4"></div>
+                    </div>
+                  ))}
+                </div>
+              </Container>
+            </Section>
+          }>
+            <ProductGridSection
+              title="Featured Products"
+              subtitle="Discover our curated collection of premium athletic and lifestyle gear"
+              products={featuredProducts}
+              itemsPerPage={8}
+            />
+          </Suspense>
           {/* Features Section */}
           <Section padding="lg" variant="dark">
             <Container maxWidth="2xl">
