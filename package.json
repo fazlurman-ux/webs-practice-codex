@@ -12,7 +12,8 @@
     "lighthouse:ci": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "compress-models": "bash scripts/compress-models.sh",
     "compress-models:aggressive": "bash scripts/compress-models.sh -p aggressive",
-    "compress-models:quality": "bash scripts/compress-models.sh -p quality"
+    "compress-models:quality": "bash scripts/compress-models.sh -p quality",
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "@react-spring/three": "^10.0.3",
