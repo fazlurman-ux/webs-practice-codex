@@ -9,6 +9,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PageWrapper } from '@/components/PageWrapper';
 import { HeroSection } from '@/components/HeroSection';
+import { TechnologySection } from '@/components/TechnologySection';
 import { AboutSection } from '@/components/AboutSection';
 import { ProductGridSection } from '@/components/ProductGridSection';
 
@@ -105,6 +106,10 @@ export default function Home() {
       <main className="bg-dark-950">
         {/* Hero Section with 3D */}
         <HeroSection />
+        
+        {/* Technology Section with Interactive 3D Breakdown */}
+        <TechnologySection />
+        
         <AboutSection />
 
         <PageWrapper sectionSpacing="lg" scrollSnapping={false}>
