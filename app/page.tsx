@@ -9,6 +9,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PageWrapper } from '@/components/PageWrapper';
 import { HeroSection } from '@/components/HeroSection';
+import { AboutSection } from '@/components/AboutSection';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <main className="bg-dark-950">
         {/* Hero Section with 3D */}
         <HeroSection />
+        <AboutSection />
 
         <PageWrapper sectionSpacing="lg" scrollSnapping={false}>
           {/* Features Section */}
