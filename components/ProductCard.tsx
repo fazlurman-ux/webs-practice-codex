@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { Badge } from './Badge';
 import { Button } from './Button';
 
@@ -110,13 +111,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden bg-dark-900">
         {shouldLoad && (
-          <img
-            ref={imageRef}
+          <Image
             src={imageSrc}
             alt={title}
-            className={`w-full h-full object-cover transition-all duration-500 ${isActive ? 'scale-110' : 'scale-100'} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className={`object-cover transition-all duration-500 ${isActive ? 'scale-110' : 'scale-100'} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             onLoad={handleImageLoad}
             loading="lazy"
+            quality={85}
+            priority={false}
           />
         )}
         

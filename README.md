@@ -15,6 +15,7 @@ A modern Next.js project with a custom Tailwind CSS theme featuring dark backgro
 - **CSS Variables**: Fully customizable color and shadow system
 - **Tailwind v4**: Latest Tailwind CSS with new @theme syntax
 - **🆕 3D Pipeline**: React Three Fiber + Drei with Draco compression, Suspense loaders, and performance optimization
+- **⚡ Performance Hardened**: Sub-2.5s LCP, optimized bundles, GPU budget management, and real-time monitoring
 
 ## 🚀 Quick Start
 
@@ -41,6 +42,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the d
 ```bash
 npm run build
 npm start
+```
+
+### Performance Testing
+
+```bash
+npm run build:analyze     # Build with bundle analyzer
+npm run lighthouse        # Run Lighthouse audit
+npm run lighthouse:ci     # CI/CD Lighthouse testing
 ```
 
 ## 📁 Project Structure

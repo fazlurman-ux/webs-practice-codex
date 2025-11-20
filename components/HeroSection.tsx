@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, useScroll, useTransform, useMotionValue, type Variants } from 'framer-motion';
 import { Button } from './Button';
+import { LoadingProgress } from './LoadingProgress';
 import { useIsMobile } from '@/hooks';
 
 // Dynamic import for 3D components (SSR-safe)
@@ -58,6 +59,7 @@ const Loader = dynamic(
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [isLoading, setIsLoading] = useState(true);
   
   // Mouse position tracking for 3D model rotation
   const mouseX = useMotionValue(0);
@@ -169,39 +171,48 @@ export function HeroSection() {
   };
 
   return (
-    <section
-      ref={containerRef}
-      className="relative w-full h-screen overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)',
-      }}
-    >
-      {/* 3D Canvas Background */}
-      <div className="absolute inset-0 z-0">
-        <CanvasContainer
-          enableControls={false}
-          cameraPosition={[0, 0, 8]}
-          autoAdjustPerformance={true}
-        >
-          <Suspense fallback={<Loader />}>
-            {/* Neon lighting for dramatic effect */}
-            <NeonLightingRig />
-            
-            {/* Animated particle background */}
-            <HeroBackground
-              particleCount={isMobile ? 50 : 100}
-              reduced={isMobile}
-            />
-            
-            {/* Hero product model with mouse/scroll controls */}
-            <Hero3DModel
-              mousePosition={mousePos}
-              scrollProgress={scroll3D}
-              enableTouch={true}
-            />
-          </Suspense>
-        </CanvasContainer>
-      </div>
+    <>
+      {/* Loading Progress for better perceived performance */}
+      {isLoading && (
+        <LoadingProgress
+          onLoadingComplete={() => setIsLoading(false)}
+          minimumDisplayTime={1500}
+        />
+      )}
+      
+      <section
+        ref={containerRef}
+        className="relative w-full h-screen overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)',
+        }}
+      >
+        {/* 3D Canvas Background */}
+        <div className="absolute inset-0 z-0">
+          <CanvasContainer
+            enableControls={false}
+            cameraPosition={[0, 0, 8]}
+            autoAdjustPerformance={true}
+          >
+            <Suspense fallback={<Loader />}>
+              {/* Neon lighting for dramatic effect */}
+              <NeonLightingRig />
+              
+              {/* Animated particle background */}
+              <HeroBackground
+                particleCount={isMobile ? 50 : 100}
+                reduced={isMobile}
+              />
+              
+              {/* Hero product model with mouse/scroll controls */}
+              <Hero3DModel
+                mousePosition={mousePos}
+                scrollProgress={scroll3D}
+                enableTouch={true}
+              />
+            </Suspense>
+          </CanvasContainer>
+        </div>
 
       {/* Gradient overlay for better text readability */}
       <div 
@@ -339,5 +350,6 @@ export function HeroSection() {
         </motion.div>
       </motion.div>
     </section>
+    </>
   );
 }

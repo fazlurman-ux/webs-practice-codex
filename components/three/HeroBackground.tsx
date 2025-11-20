@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Object3D, Color } from 'three';
+import { InstancedMesh, Object3D, Color, OctahedronGeometry, MeshStandardMaterial } from 'three';
 
 interface HeroBackgroundProps {
   /** Number of particles (default: 100 for performance) */
@@ -52,14 +52,16 @@ export function HeroBackground({
   // Adjust particle count for performance
   const count = reduced ? Math.floor(particleCount / 2) : particleCount;
 
+  // Memoize colors to prevent recreation
+  const colors = useMemo(() => [
+    new Color('#e91e8c'), // Neon purple
+    new Color('#39ff14'), // Lime green
+    new Color('#00d9ff'), // Cyan
+  ], []);
+
   // Particle data: position, velocity, color
   const particles = useMemo(() => {
     const temp = [];
-    const colors = [
-      new Color('#e91e8c'), // Neon purple
-      new Color('#39ff14'), // Lime green
-      new Color('#00d9ff'), // Cyan
-    ];
 
     for (let i = 0; i < count; i++) {
       temp.push({
@@ -75,8 +77,8 @@ export function HeroBackground({
           y: (Math.random() - 0.5) * 0.01,
           z: (Math.random() - 0.5) * 0.005,
         },
-        // Random scale for variety
-        scale: Math.random() * 0.3 + 0.1,
+        // Random scale for variety - reduced max scale for performance
+        scale: Math.random() * 0.2 + 0.05,
         // Random color from palette
         color: colors[Math.floor(Math.random() * colors.length)],
         // Phase offset for wave motion
@@ -84,7 +86,7 @@ export function HeroBackground({
       });
     }
     return temp;
-  }, [count]);
+  }, [count, colors]);
 
   // Initialize instance positions/colors
   useMemo(() => {
@@ -143,23 +145,26 @@ export function HeroBackground({
     meshRef.current.instanceMatrix.needsUpdate = true;
   });
 
+  // Memoize geometry and material for performance
+  const particleGeometry = useMemo(() => (
+    new OctahedronGeometry(reduced ? 0.04 : 0.06, 0)
+  ), [reduced]);
+
+  const particleMaterial = useMemo(() => (
+    new MeshStandardMaterial({
+      emissive: "#ffffff",
+      emissiveIntensity: reduced ? 0.2 : 0.3, // Reduced intensity for mobile
+      metalness: 0.8,
+      roughness: 0.2,
+      toneMapped: false, // Prevent color clipping on bright emissive
+    })
+  ), [reduced]);
+
   return (
     <instancedMesh
       ref={meshRef}
-      args={[undefined, undefined, count]}
+      args={[particleGeometry, particleMaterial, count]}
       frustumCulled={true}
-    >
-      {/* Simple geometry for particles */}
-      <octahedronGeometry args={[reduced ? 0.05 : 0.08, 0]} />
-      
-      {/* Emissive material for glow effect */}
-      <meshStandardMaterial
-        emissive="#ffffff"
-        emissiveIntensity={0.3}
-        metalness={0.8}
-        roughness={0.2}
-        toneMapped={false} // Prevent color clipping on bright emissive
-      />
-    </instancedMesh>
+    />
   );
 }
