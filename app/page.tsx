@@ -8,35 +8,17 @@ import { Section } from '@/components/Section';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PageWrapper } from '@/components/PageWrapper';
+import { HeroSection } from '@/components/HeroSection';
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <main className="bg-dark-950">
-        <PageWrapper sectionSpacing="lg" scrollSnapping={false}>
-          {/* Hero Section */}
-          <Section padding="xl" variant="gradient">
-            <Container maxWidth="2xl">
-              <div className="flex-center flex-col gap-8 text-center">
-                <h1 className="text-6xl font-bold neon-text-purple animate-pulse-neon">
-                  Premium Dark Experience
-                </h1>
-                <p className="max-w-xl text-xl text-dark-100">
-                  Tailwind CSS custom theme with dark backgrounds, neon accents, and 3D depth effects
-                </p>
-                <div className="flex gap-4 flex-wrap justify-center">
-                  <Button variant="neon" size="lg">
-                    Get Started
-                  </Button>
-                  <Button variant="secondary" size="lg">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-            </Container>
-          </Section>
+        {/* Hero Section with 3D */}
+        <HeroSection />
 
+        <PageWrapper sectionSpacing="lg" scrollSnapping={false}>
           {/* Features Section */}
           <Section padding="lg" variant="dark">
             <Container maxWidth="2xl">
