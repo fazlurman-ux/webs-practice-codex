@@ -14,6 +14,7 @@ A modern Next.js project with a custom Tailwind CSS theme featuring dark backgro
 - **Pre-built Components**: Button, Card, Badge, Container, Section components
 - **CSS Variables**: Fully customizable color and shadow system
 - **Tailwind v4**: Latest Tailwind CSS with new @theme syntax
+- **🆕 3D Pipeline**: React Three Fiber + Drei with Draco compression, Suspense loaders, and performance optimization
 
 ## 🚀 Quick Start
 
@@ -171,6 +172,7 @@ import { Card } from '@/components';
 
 ## 📖 Documentation
 
+### Theme Documentation
 For comprehensive documentation on:
 - All CSS variables
 - Complete utility classes
@@ -179,6 +181,12 @@ For comprehensive documentation on:
 - Browser support
 
 See **[THEME_DOCUMENTATION.md](./THEME_DOCUMENTATION.md)** for the complete guide.
+
+### 3D Pipeline Documentation
+For 3D integration guides:
+- **[3D_QUICK_START.md](./3D_QUICK_START.md)** - Get started in 5 minutes
+- **[3D_PIPELINE_DOCUMENTATION.md](./3D_PIPELINE_DOCUMENTATION.md)** - Complete technical documentation
+- **Demo Page**: Visit `/three-demo` after running `npm run dev`
 
 ## ✨ Utility Classes
 
@@ -306,6 +314,10 @@ Features used:
 - **Oswald Font** - Google Font (headings)
 - **Inter Font** - Google Font (body)
 - **JetBrains Mono** - Google Font (code)
+- **React Three Fiber** - React renderer for Three.js
+- **Drei** - Useful helpers for R3F
+- **Three.js** - 3D graphics library
+- **Zustand** - State management for 3D scenes
 
 ## 🚀 Deployment
 
