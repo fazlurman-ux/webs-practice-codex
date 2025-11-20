@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'default' | 'purple' | 'lime' | 'cyan';
+  variant?: 'default' | 'purple' | 'lime' | 'cyan' | 'pink';
   children: React.ReactNode;
 }
 
@@ -16,6 +16,7 @@ export const Badge: React.FC<BadgeProps> = ({
     purple: 'bg-neon-purple/20 text-neon-purple border border-neon-purple neon-border',
     lime: 'bg-neon-lime/20 text-neon-lime border border-neon-lime neon-border-lime',
     cyan: 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan neon-border-cyan',
+    pink: 'bg-neon-pink/20 text-neon-pink border border-neon-pink',
   };
 
   return (
